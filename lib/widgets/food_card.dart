@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:menu_app/widgets/detail_card.dart';
 import '../models/food.dart';
 
 class FoodCard extends StatelessWidget {
@@ -21,39 +23,47 @@ class FoodCard extends StatelessWidget {
               offset: Offset(0, 2),
             )
           ]),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Column(
-            children: [
-              Text(
-                food.name,
-                style: TextStyle(fontSize: 25),
-              ),
-              Text(
-                food.description ?? "",
-                style: TextStyle(
-                  fontSize: 15,
-                  color: Color.fromARGB(255, 108, 107, 107),
+      child: InkWell(
+        onTap: () {
+          context.push(
+            "/details",
+            extra: food,
+          );
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Column(
+              children: [
+                Text(
+                  food.name,
+                  style: TextStyle(fontSize: 25),
+                ),
+                Text(
+                  food.description ?? "",
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Color.fromARGB(255, 108, 107, 107),
+                  ),
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                clipBehavior: Clip.antiAlias,
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(15)),
+                child: Image.network(
+                  food.image,
+                  height: 100,
+                  width: 100,
+                  fit: BoxFit.cover,
                 ),
               ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              clipBehavior: Clip.antiAlias,
-              decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(15)),
-              child: Image.network(
-                food.image,
-                height: 100,
-                width: 100,
-                fit: BoxFit.cover,
-              ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }

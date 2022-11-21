@@ -1,12 +1,28 @@
 import 'package:flutter/material.dart';
-
+import 'package:menu_app/widgets/detail_card.dart';
 import 'package:menu_app/widgets/food_card.dart';
-
+import 'package:menu_app/widgets/home.dart';
 import 'models/food.dart';
+import 'package:go_router/go_router.dart';
 
 void main() {
   runApp(MyApp());
 }
+
+final router = GoRouter(
+  routes: [
+    GoRoute(
+      path: '/',
+      builder: ((context, state) => Home()),
+    ),
+    GoRoute(
+      path: '/details',
+      builder: ((context, state) => DetailCard(
+            food: state.extra as Food,
+          )),
+    ),
+  ],
+);
 
 class MyApp extends StatelessWidget {
   MyApp({super.key});
@@ -14,25 +30,12 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
+    return MaterialApp.router(
+      routerConfig: router,
+      title: 'Menu App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Scaffold(
-          appBar: AppBar(
-              title: Text(
-                "Menu",
-                style: TextStyle(fontSize: 33, fontWeight: FontWeight.bold),
-              ),
-              backgroundColor: Color.fromARGB(255, 255, 106, 0)),
-          body: ListView(
-            children: Food.foods
-                .map((food) => FoodCard(
-                      food: food,
-                    ))
-                .toList(),
-          )),
     );
   }
 }
